@@ -471,6 +471,95 @@ paths:
               schema:
                 $ref: "#/components/schemas/DiversityBreakdown"
 
+  /curriculos:
+    get:
+      operationId: listResumes
+      tags: [resumes]
+      summary: List all resumes
+      responses:
+        "200":
+          description: List of resumes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Resume"
+    post:
+      operationId: createResume
+      tags: [resumes]
+      summary: Create a new resume
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateResumeBody"
+      responses:
+        "201":
+          description: Created resume
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Resume"
+
+  /curriculos/{id}:
+    get:
+      operationId: getResume
+      tags: [resumes]
+      summary: Get a resume by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Resume details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Resume"
+        "404":
+          description: Not found
+    put:
+      operationId: updateResume
+      tags: [resumes]
+      summary: Update a resume
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateResumeBody"
+      responses:
+        "200":
+          description: Updated resume
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Resume"
+    delete:
+      operationId: deleteResume
+      tags: [resumes]
+      summary: Delete a resume
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
 components:
   schemas:
     HealthStatus:
@@ -825,3 +914,94 @@ components:
         - genderDistribution
         - ageGroups
         - formalContractRate
+
+    Resume:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        linkedinUrl:
+          type: string
+          nullable: true
+        summary:
+          type: string
+        experiences:
+          type: string
+          description: JSON array of experience objects
+        education:
+          type: string
+          description: JSON array of education objects
+        skills:
+          type: string
+          description: JSON array of skill objects
+        languages:
+          type: string
+          description: JSON array of language objects
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - name
+        - email
+        - phone
+        - city
+        - state
+        - summary
+        - experiences
+        - education
+        - skills
+        - languages
+        - createdAt
+        - updatedAt
+
+    CreateResumeBody:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        linkedinUrl:
+          type: string
+          nullable: true
+        summary:
+          type: string
+        experiences:
+          type: string
+        education:
+          type: string
+        skills:
+          type: string
+        languages:
+          type: string
+      required:
+        - name
+        - email
+        - phone
+        - city
+        - state
+        - summary
+        - experiences
+        - education
+        - skills
+        - languages

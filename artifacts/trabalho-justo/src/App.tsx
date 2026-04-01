@@ -10,6 +10,8 @@ import CompanyDetailPage from "@/pages/company-detail";
 import IndicatorsPage from "@/pages/indicators";
 import EmployeesPage from "@/pages/employees";
 import TrainingsPage from "@/pages/trainings";
+import ResumesPage from "@/pages/resumes";
+import ResumeBuilderPage from "@/pages/resume-builder";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +25,8 @@ function Router() {
         <Route path="/empresas/:id/indicadores" component={IndicatorsPage} />
         <Route path="/empresas/:id/funcionarios" component={EmployeesPage} />
         <Route path="/empresas/:id/treinamentos" component={TrainingsPage} />
+        <Route path="/curriculos" component={ResumesPage} />
+        <Route path="/curriculos/:id" component={ResumeBuilderPage} />
         <Route component={NotFound} />
       </Switch>
     </Layout>

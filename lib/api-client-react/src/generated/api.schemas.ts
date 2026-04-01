@@ -246,3 +246,38 @@ export interface DiversityBreakdown {
   ageGroups: DiversityBreakdownAgeGroupsItem[];
   formalContractRate: number;
 }
+
+export interface Resume {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  city: string;
+  state: string;
+  linkedinUrl?: string | null;
+  summary: string;
+  /** JSON array of experience objects */
+  experiences: string;
+  /** JSON array of education objects */
+  education: string;
+  /** JSON array of skill objects */
+  skills: string;
+  /** JSON array of language objects */
+  languages: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateResumeBody {
+  name: string;
+  email: string;
+  phone: string;
+  city: string;
+  state: string;
+  linkedinUrl?: string | null;
+  summary: string;
+  experiences: string;
+  education: string;
+  skills: string;
+  languages: string;
+}

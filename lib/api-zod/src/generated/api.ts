@@ -453,3 +453,110 @@ export const GetDiversityBreakdownResponse = zod.object({
   ),
   formalContractRate: zod.number(),
 });
+
+/**
+ * @summary List all resumes
+ */
+export const ListResumesResponseItem = zod.object({
+  id: zod.number(),
+  name: zod.string(),
+  email: zod.string(),
+  phone: zod.string(),
+  city: zod.string(),
+  state: zod.string(),
+  linkedinUrl: zod.string().nullish(),
+  summary: zod.string(),
+  experiences: zod.string().describe("JSON array of experience objects"),
+  education: zod.string().describe("JSON array of education objects"),
+  skills: zod.string().describe("JSON array of skill objects"),
+  languages: zod.string().describe("JSON array of language objects"),
+  createdAt: zod.coerce.date(),
+  updatedAt: zod.coerce.date(),
+});
+export const ListResumesResponse = zod.array(ListResumesResponseItem);
+
+/**
+ * @summary Create a new resume
+ */
+export const CreateResumeBody = zod.object({
+  name: zod.string(),
+  email: zod.string(),
+  phone: zod.string(),
+  city: zod.string(),
+  state: zod.string(),
+  linkedinUrl: zod.string().nullish(),
+  summary: zod.string(),
+  experiences: zod.string(),
+  education: zod.string(),
+  skills: zod.string(),
+  languages: zod.string(),
+});
+
+/**
+ * @summary Get a resume by ID
+ */
+export const GetResumeParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+export const GetResumeResponse = zod.object({
+  id: zod.number(),
+  name: zod.string(),
+  email: zod.string(),
+  phone: zod.string(),
+  city: zod.string(),
+  state: zod.string(),
+  linkedinUrl: zod.string().nullish(),
+  summary: zod.string(),
+  experiences: zod.string().describe("JSON array of experience objects"),
+  education: zod.string().describe("JSON array of education objects"),
+  skills: zod.string().describe("JSON array of skill objects"),
+  languages: zod.string().describe("JSON array of language objects"),
+  createdAt: zod.coerce.date(),
+  updatedAt: zod.coerce.date(),
+});
+
+/**
+ * @summary Update a resume
+ */
+export const UpdateResumeParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+export const UpdateResumeBody = zod.object({
+  name: zod.string(),
+  email: zod.string(),
+  phone: zod.string(),
+  city: zod.string(),
+  state: zod.string(),
+  linkedinUrl: zod.string().nullish(),
+  summary: zod.string(),
+  experiences: zod.string(),
+  education: zod.string(),
+  skills: zod.string(),
+  languages: zod.string(),
+});
+
+export const UpdateResumeResponse = zod.object({
+  id: zod.number(),
+  name: zod.string(),
+  email: zod.string(),
+  phone: zod.string(),
+  city: zod.string(),
+  state: zod.string(),
+  linkedinUrl: zod.string().nullish(),
+  summary: zod.string(),
+  experiences: zod.string().describe("JSON array of experience objects"),
+  education: zod.string().describe("JSON array of education objects"),
+  skills: zod.string().describe("JSON array of skill objects"),
+  languages: zod.string().describe("JSON array of language objects"),
+  createdAt: zod.coerce.date(),
+  updatedAt: zod.coerce.date(),
+});
+
+/**
+ * @summary Delete a resume
+ */
+export const DeleteResumeParams = zod.object({
+  id: zod.coerce.number(),
+});

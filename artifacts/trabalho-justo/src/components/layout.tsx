@@ -6,7 +6,8 @@ import {
   BookOpen, 
   Activity,
   Menu,
-  HeartHandshake
+  HeartHandshake,
+  FileText
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -26,6 +27,7 @@ export function Layout({ children }: LayoutProps) {
   const navigation = [
     { name: "Dashboard Geral", href: "/", icon: LayoutDashboard },
     { name: "Empresas", href: "/empresas", icon: Building2 },
+    { name: "Curriculos", href: "/curriculos", icon: FileText },
   ];
 
   const NavLinks = () => (
