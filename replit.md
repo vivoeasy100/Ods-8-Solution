@@ -16,6 +16,10 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 - **API codegen**: Orval (from OpenAPI spec)
 - **Build**: esbuild (CJS bundle)
 
+## Project
+
+**TrabalhoJusto** — Plataforma de monitoramento de indicadores ODS 8 (Trabalho Decente e Crescimento Econômico) para pequenas e médias empresas brasileiras.
+
 ## Structure
 
 ```text
