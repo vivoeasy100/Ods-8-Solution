@@ -281,3 +281,71 @@ export interface CreateResumeBody {
   skills: string;
   languages: string;
 }
+
+export interface AuthUser {
+  id: string;
+  email: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  profileImageUrl: string | null;
+}
+
+export interface GetCurrentAuthUserResponse {
+  user: AuthUser | null;
+}
+
+export interface ExchangeMobileAuthorizationCodeBody {
+  code: string;
+  code_verifier: string;
+  redirect_uri: string;
+  state: string;
+  nonce?: string | null;
+}
+
+export interface ExchangeMobileAuthorizationCodeResponse {
+  token: string;
+}
+
+export interface LogoutMobileSessionResponse {
+  success: boolean;
+}
+
+export interface Job {
+  id: number;
+  title: string;
+  company: string;
+  location: string;
+  type: string;
+  area: string;
+  salaryMin?: number | null;
+  salaryMax?: number | null;
+  description: string;
+  requirements: string;
+  skills: string;
+  benefits: string;
+  isActive: boolean;
+  createdAt: string;
+}
+
+export interface Course {
+  id: number;
+  title: string;
+  provider: string;
+  area: string;
+  level: string;
+  durationHours?: number | null;
+  description: string;
+  skills: string;
+  url?: string | null;
+  isFree: string;
+  createdAt: string;
+}
+
+export interface RecommendationsResponse {
+  jobs: Job[];
+  courses: Course[];
+}
+
+export type GetRecommendationsParams = {
+  curriculoId?: number;
+};

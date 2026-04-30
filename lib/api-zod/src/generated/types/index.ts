@@ -6,8 +6,10 @@
  * OpenAPI spec version: 0.1.0
  */
 
+export * from "./authUser";
 export * from "./company";
 export * from "./companySize";
+export * from "./course";
 export * from "./createCompanyBody";
 export * from "./createCompanyBodySize";
 export * from "./createEmployeeBody";
@@ -25,13 +27,20 @@ export * from "./diversityBreakdownAgeGroupsItem";
 export * from "./diversityBreakdownGenderDistributionItem";
 export * from "./employee";
 export * from "./employeeGender";
+export * from "./exchangeMobileAuthorizationCodeBody";
+export * from "./exchangeMobileAuthorizationCodeResponse";
+export * from "./getCurrentAuthUserResponse";
+export * from "./getRecommendationsParams";
 export * from "./healthStatus";
 export * from "./indicator";
 export * from "./indicatorCategory";
 export * from "./indicatorTrend";
+export * from "./job";
+export * from "./logoutMobileSessionResponse";
 export * from "./ods8Score";
 export * from "./ods8ScoreBreakdownItem";
 export * from "./ods8ScoreLevel";
+export * from "./recommendationsResponse";
 export * from "./resume";
 export * from "./training";
 export * from "./trainingType";

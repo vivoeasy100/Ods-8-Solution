@@ -18,6 +18,7 @@ import type {
 
 import type {
   Company,
+  Course,
   CreateCompanyBody,
   CreateEmployeeBody,
   CreateIndicatorBody,
@@ -26,10 +27,14 @@ import type {
   DashboardSummary,
   DiversityBreakdown,
   Employee,
+  GetCurrentAuthUserResponse,
+  GetRecommendationsParams,
   HealthStatus,
   Indicator,
   IndicatorTrend,
+  Job,
   Ods8Score,
+  RecommendationsResponse,
   Resume,
   Training,
 } from "./api.schemas";
@@ -2339,3 +2344,476 @@ export const useDeleteResume = <
 > => {
   return useMutation(getDeleteResumeMutationOptions(options));
 };
+
+/**
+ * @summary Get current authenticated user
+ */
+export const getGetCurrentAuthUserUrl = () => {
+  return `/api/auth/user`;
+};
+
+export const getCurrentAuthUser = async (
+  options?: RequestInit,
+): Promise<GetCurrentAuthUserResponse> => {
+  return customFetch<GetCurrentAuthUserResponse>(getGetCurrentAuthUserUrl(), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getGetCurrentAuthUserQueryKey = () => {
+  return [`/api/auth/user`] as const;
+};
+
+export const getGetCurrentAuthUserQueryOptions = <
+  TData = Awaited<ReturnType<typeof getCurrentAuthUser>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof getCurrentAuthUser>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetCurrentAuthUserQueryKey();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getCurrentAuthUser>>
+  > = ({ signal }) => getCurrentAuthUser({ signal, ...requestOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getCurrentAuthUser>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type GetCurrentAuthUserQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getCurrentAuthUser>>
+>;
+export type GetCurrentAuthUserQueryError = ErrorType<unknown>;
+
+/**
+ * @summary Get current authenticated user
+ */
+
+export function useGetCurrentAuthUser<
+  TData = Awaited<ReturnType<typeof getCurrentAuthUser>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof getCurrentAuthUser>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetCurrentAuthUserQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * @summary List all job listings
+ */
+export const getListJobsUrl = () => {
+  return `/api/vagas`;
+};
+
+export const listJobs = async (options?: RequestInit): Promise<Job[]> => {
+  return customFetch<Job[]>(getListJobsUrl(), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getListJobsQueryKey = () => {
+  return [`/api/vagas`] as const;
+};
+
+export const getListJobsQueryOptions = <
+  TData = Awaited<ReturnType<typeof listJobs>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<Awaited<ReturnType<typeof listJobs>>, TError, TData>;
+  request?: SecondParameter<typeof customFetch>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getListJobsQueryKey();
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof listJobs>>> = ({
+    signal,
+  }) => listJobs({ signal, ...requestOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof listJobs>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type ListJobsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof listJobs>>
+>;
+export type ListJobsQueryError = ErrorType<unknown>;
+
+/**
+ * @summary List all job listings
+ */
+
+export function useListJobs<
+  TData = Awaited<ReturnType<typeof listJobs>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<Awaited<ReturnType<typeof listJobs>>, TError, TData>;
+  request?: SecondParameter<typeof customFetch>;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getListJobsQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * @summary Get a single job listing
+ */
+export const getGetJobUrl = (id: number) => {
+  return `/api/vagas/${id}`;
+};
+
+export const getJob = async (
+  id: number,
+  options?: RequestInit,
+): Promise<Job> => {
+  return customFetch<Job>(getGetJobUrl(id), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getGetJobQueryKey = (id: number) => {
+  return [`/api/vagas/${id}`] as const;
+};
+
+export const getGetJobQueryOptions = <
+  TData = Awaited<ReturnType<typeof getJob>>,
+  TError = ErrorType<unknown>,
+>(
+  id: number,
+  options?: {
+    query?: UseQueryOptions<Awaited<ReturnType<typeof getJob>>, TError, TData>;
+    request?: SecondParameter<typeof customFetch>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetJobQueryKey(id);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getJob>>> = ({
+    signal,
+  }) => getJob(id, { signal, ...requestOptions });
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!id,
+    ...queryOptions,
+  } as UseQueryOptions<Awaited<ReturnType<typeof getJob>>, TError, TData> & {
+    queryKey: QueryKey;
+  };
+};
+
+export type GetJobQueryResult = NonNullable<Awaited<ReturnType<typeof getJob>>>;
+export type GetJobQueryError = ErrorType<unknown>;
+
+/**
+ * @summary Get a single job listing
+ */
+
+export function useGetJob<
+  TData = Awaited<ReturnType<typeof getJob>>,
+  TError = ErrorType<unknown>,
+>(
+  id: number,
+  options?: {
+    query?: UseQueryOptions<Awaited<ReturnType<typeof getJob>>, TError, TData>;
+    request?: SecondParameter<typeof customFetch>;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetJobQueryOptions(id, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * @summary List all courses
+ */
+export const getListCoursesUrl = () => {
+  return `/api/cursos`;
+};
+
+export const listCourses = async (options?: RequestInit): Promise<Course[]> => {
+  return customFetch<Course[]>(getListCoursesUrl(), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getListCoursesQueryKey = () => {
+  return [`/api/cursos`] as const;
+};
+
+export const getListCoursesQueryOptions = <
+  TData = Awaited<ReturnType<typeof listCourses>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof listCourses>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getListCoursesQueryKey();
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof listCourses>>> = ({
+    signal,
+  }) => listCourses({ signal, ...requestOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof listCourses>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type ListCoursesQueryResult = NonNullable<
+  Awaited<ReturnType<typeof listCourses>>
+>;
+export type ListCoursesQueryError = ErrorType<unknown>;
+
+/**
+ * @summary List all courses
+ */
+
+export function useListCourses<
+  TData = Awaited<ReturnType<typeof listCourses>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof listCourses>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getListCoursesQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * @summary Get a single course
+ */
+export const getGetCourseUrl = (id: number) => {
+  return `/api/cursos/${id}`;
+};
+
+export const getCourse = async (
+  id: number,
+  options?: RequestInit,
+): Promise<Course> => {
+  return customFetch<Course>(getGetCourseUrl(id), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getGetCourseQueryKey = (id: number) => {
+  return [`/api/cursos/${id}`] as const;
+};
+
+export const getGetCourseQueryOptions = <
+  TData = Awaited<ReturnType<typeof getCourse>>,
+  TError = ErrorType<unknown>,
+>(
+  id: number,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof getCourse>>,
+      TError,
+      TData
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetCourseQueryKey(id);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getCourse>>> = ({
+    signal,
+  }) => getCourse(id, { signal, ...requestOptions });
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!id,
+    ...queryOptions,
+  } as UseQueryOptions<Awaited<ReturnType<typeof getCourse>>, TError, TData> & {
+    queryKey: QueryKey;
+  };
+};
+
+export type GetCourseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getCourse>>
+>;
+export type GetCourseQueryError = ErrorType<unknown>;
+
+/**
+ * @summary Get a single course
+ */
+
+export function useGetCourse<
+  TData = Awaited<ReturnType<typeof getCourse>>,
+  TError = ErrorType<unknown>,
+>(
+  id: number,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof getCourse>>,
+      TError,
+      TData
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetCourseQueryOptions(id, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * @summary Get recommended jobs and courses based on resume skills
+ */
+export const getGetRecommendationsUrl = (params?: GetRecommendationsParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/recomendacoes?${stringifiedParams}`
+    : `/api/recomendacoes`;
+};
+
+export const getRecommendations = async (
+  params?: GetRecommendationsParams,
+  options?: RequestInit,
+): Promise<RecommendationsResponse> => {
+  return customFetch<RecommendationsResponse>(
+    getGetRecommendationsUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
+
+export const getGetRecommendationsQueryKey = (
+  params?: GetRecommendationsParams,
+) => {
+  return [`/api/recomendacoes`, ...(params ? [params] : [])] as const;
+};
+
+export const getGetRecommendationsQueryOptions = <
+  TData = Awaited<ReturnType<typeof getRecommendations>>,
+  TError = ErrorType<unknown>,
+>(
+  params?: GetRecommendationsParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof getRecommendations>>,
+      TError,
+      TData
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetRecommendationsQueryKey(params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getRecommendations>>
+  > = ({ signal }) => getRecommendations(params, { signal, ...requestOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getRecommendations>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type GetRecommendationsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getRecommendations>>
+>;
+export type GetRecommendationsQueryError = ErrorType<unknown>;
+
+/**
+ * @summary Get recommended jobs and courses based on resume skills
+ */
+
+export function useGetRecommendations<
+  TData = Awaited<ReturnType<typeof getRecommendations>>,
+  TError = ErrorType<unknown>,
+>(
+  params?: GetRecommendationsParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof getRecommendations>>,
+      TError,
+      TData
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetRecommendationsQueryOptions(params, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}

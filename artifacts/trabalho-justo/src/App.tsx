@@ -12,6 +12,11 @@ import EmployeesPage from "@/pages/employees";
 import TrainingsPage from "@/pages/trainings";
 import ResumesPage from "@/pages/resumes";
 import ResumeBuilderPage from "@/pages/resume-builder";
+import JobsPage from "@/pages/jobs";
+import JobDetailPage from "@/pages/job-detail";
+import CoursesPage from "@/pages/courses";
+import CourseDetailPage from "@/pages/course-detail";
+import RecommendationsPage from "@/pages/recommendations";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +32,11 @@ function Router() {
         <Route path="/empresas/:id/treinamentos" component={TrainingsPage} />
         <Route path="/curriculos" component={ResumesPage} />
         <Route path="/curriculos/:id" component={ResumeBuilderPage} />
+        <Route path="/vagas" component={JobsPage} />
+        <Route path="/vagas/:id" component={JobDetailPage} />
+        <Route path="/cursos" component={CoursesPage} />
+        <Route path="/cursos/:id" component={CourseDetailPage} />
+        <Route path="/recomendacoes" component={RecommendationsPage} />
         <Route component={NotFound} />
       </Switch>
     </Layout>

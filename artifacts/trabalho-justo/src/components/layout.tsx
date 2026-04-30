@@ -1,19 +1,20 @@
 import { Link, useLocation } from "wouter";
-import { 
-  Building2, 
-  LayoutDashboard, 
-  Users, 
-  BookOpen, 
-  Activity,
+import {
+  Building2,
+  LayoutDashboard,
   Menu,
   HeartHandshake,
-  FileText
+  FileText,
+  Briefcase,
+  BookOpen,
+  Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
 import { useHealthCheck } from "@workspace/api-client-react";
+import { AuthHeader } from "./auth-header";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -22,12 +23,15 @@ interface LayoutProps {
 export function Layout({ children }: LayoutProps) {
   const [location] = useLocation();
   const [open, setOpen] = useState(false);
-  const { data: health } = useHealthCheck(); // Fulfilling requirement to use all hooks
+  const { data: health } = useHealthCheck();
 
   const navigation = [
     { name: "Dashboard Geral", href: "/", icon: LayoutDashboard },
     { name: "Empresas", href: "/empresas", icon: Building2 },
     { name: "Curriculos", href: "/curriculos", icon: FileText },
+    { name: "Vagas de Emprego", href: "/vagas", icon: Briefcase },
+    { name: "Cursos", href: "/cursos", icon: BookOpen },
+    { name: "Recomendacoes", href: "/recomendacoes", icon: Sparkles },
   ];
 
   const NavLinks = () => (
@@ -76,19 +80,21 @@ export function Layout({ children }: LayoutProps) {
             </ScrollArea>
           </SheetContent>
         </Sheet>
-        <div className="flex items-center gap-2 font-bold text-primary">
+        <div className="flex items-center gap-2 font-bold text-primary flex-1">
           <HeartHandshake className="h-5 w-5" />
           <span>TrabalhoJusto</span>
         </div>
+        <AuthHeader />
       </header>
 
       {/* Desktop Sidebar */}
       <aside className="hidden w-64 shrink-0 flex-col border-r bg-card md:flex">
-        <div className="flex h-16 shrink-0 items-center px-6 border-b">
+        <div className="flex h-16 shrink-0 items-center justify-between px-6 border-b">
           <div className="flex items-center gap-2 font-bold text-primary text-lg tracking-tight">
             <HeartHandshake className="h-6 w-6" />
             <span>TrabalhoJusto</span>
           </div>
+          <AuthHeader />
         </div>
         <ScrollArea className="flex-1 px-4 py-4">
           <NavLinks />
@@ -96,7 +102,7 @@ export function Layout({ children }: LayoutProps) {
         <div className="p-4 border-t text-xs text-muted-foreground flex items-center justify-between">
           <span>Sistema ODS 8</span>
           <span className="flex items-center gap-1">
-            <span className={`w-2 h-2 rounded-full ${health?.status === 'ok' ? 'bg-green-500' : 'bg-red-500'}`}></span>
+            <span className={`w-2 h-2 rounded-full ${health?.status === "ok" ? "bg-green-500" : "bg-red-500"}`}></span>
             API
           </span>
         </div>

@@ -560,3 +560,145 @@ export const UpdateResumeResponse = zod.object({
 export const DeleteResumeParams = zod.object({
   id: zod.coerce.number(),
 });
+
+/**
+ * @summary Get current authenticated user
+ */
+export const GetCurrentAuthUserResponse = zod.object({
+  user: zod
+    .object({
+      id: zod.string(),
+      email: zod.string().nullable(),
+      firstName: zod.string().nullable(),
+      lastName: zod.string().nullable(),
+      profileImageUrl: zod.string().nullable(),
+    })
+    .nullable(),
+});
+
+/**
+ * @summary List all job listings
+ */
+export const ListJobsResponseItem = zod.object({
+  id: zod.number(),
+  title: zod.string(),
+  company: zod.string(),
+  location: zod.string(),
+  type: zod.string(),
+  area: zod.string(),
+  salaryMin: zod.number().nullish(),
+  salaryMax: zod.number().nullish(),
+  description: zod.string(),
+  requirements: zod.string(),
+  skills: zod.string(),
+  benefits: zod.string(),
+  isActive: zod.boolean(),
+  createdAt: zod.coerce.date(),
+});
+export const ListJobsResponse = zod.array(ListJobsResponseItem);
+
+/**
+ * @summary Get a single job listing
+ */
+export const GetJobParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+export const GetJobResponse = zod.object({
+  id: zod.number(),
+  title: zod.string(),
+  company: zod.string(),
+  location: zod.string(),
+  type: zod.string(),
+  area: zod.string(),
+  salaryMin: zod.number().nullish(),
+  salaryMax: zod.number().nullish(),
+  description: zod.string(),
+  requirements: zod.string(),
+  skills: zod.string(),
+  benefits: zod.string(),
+  isActive: zod.boolean(),
+  createdAt: zod.coerce.date(),
+});
+
+/**
+ * @summary List all courses
+ */
+export const ListCoursesResponseItem = zod.object({
+  id: zod.number(),
+  title: zod.string(),
+  provider: zod.string(),
+  area: zod.string(),
+  level: zod.string(),
+  durationHours: zod.number().nullish(),
+  description: zod.string(),
+  skills: zod.string(),
+  url: zod.string().nullish(),
+  isFree: zod.string(),
+  createdAt: zod.coerce.date(),
+});
+export const ListCoursesResponse = zod.array(ListCoursesResponseItem);
+
+/**
+ * @summary Get a single course
+ */
+export const GetCourseParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+export const GetCourseResponse = zod.object({
+  id: zod.number(),
+  title: zod.string(),
+  provider: zod.string(),
+  area: zod.string(),
+  level: zod.string(),
+  durationHours: zod.number().nullish(),
+  description: zod.string(),
+  skills: zod.string(),
+  url: zod.string().nullish(),
+  isFree: zod.string(),
+  createdAt: zod.coerce.date(),
+});
+
+/**
+ * @summary Get recommended jobs and courses based on resume skills
+ */
+export const GetRecommendationsQueryParams = zod.object({
+  curriculoId: zod.coerce.number().optional(),
+});
+
+export const GetRecommendationsResponse = zod.object({
+  jobs: zod.array(
+    zod.object({
+      id: zod.number(),
+      title: zod.string(),
+      company: zod.string(),
+      location: zod.string(),
+      type: zod.string(),
+      area: zod.string(),
+      salaryMin: zod.number().nullish(),
+      salaryMax: zod.number().nullish(),
+      description: zod.string(),
+      requirements: zod.string(),
+      skills: zod.string(),
+      benefits: zod.string(),
+      isActive: zod.boolean(),
+      createdAt: zod.coerce.date(),
+    }),
+  ),
+  courses: zod.array(
+    zod.object({
+      id: zod.number(),
+      title: zod.string(),
+      provider: zod.string(),
+      area: zod.string(),
+      level: zod.string(),
+      durationHours: zod.number().nullish(),
+      description: zod.string(),
+      skills: zod.string(),
+      url: zod.string().nullish(),
+      isFree: zod.string(),
+      createdAt: zod.coerce.date(),
+    }),
+  ),
+});

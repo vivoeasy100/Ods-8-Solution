@@ -9,6 +9,8 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: auth
+    description: Authentication
   - name: companies
     description: Company management
   - name: indicators
@@ -19,6 +21,10 @@ tags:
     description: Training and capacity building
   - name: dashboard
     description: Dashboard summaries and analytics
+  - name: jobs
+    description: Job listings
+  - name: courses
+    description: Training courses
 paths:
   /healthz:
     get:
@@ -560,6 +566,106 @@ paths:
         "204":
           description: Deleted
 
+  /auth/user:
+    get:
+      operationId: getCurrentAuthUser
+      tags: [auth]
+      summary: Get current authenticated user
+      responses:
+        "200":
+          description: Auth state
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetCurrentAuthUserResponse"
+
+  /vagas:
+    get:
+      operationId: listJobs
+      tags: [jobs]
+      summary: List all job listings
+      responses:
+        "200":
+          description: List of jobs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Job"
+
+  /vagas/{id}:
+    get:
+      operationId: getJob
+      tags: [jobs]
+      summary: Get a single job listing
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Job listing
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Job"
+
+  /cursos:
+    get:
+      operationId: listCourses
+      tags: [courses]
+      summary: List all courses
+      responses:
+        "200":
+          description: List of courses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Course"
+
+  /cursos/{id}:
+    get:
+      operationId: getCourse
+      tags: [courses]
+      summary: Get a single course
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Course
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Course"
+
+  /recomendacoes:
+    get:
+      operationId: getRecommendations
+      tags: [jobs]
+      summary: Get recommended jobs and courses based on resume skills
+      parameters:
+        - name: curriculoId
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Recommendations
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RecommendationsResponse"
+
 components:
   schemas:
     HealthStatus:
@@ -1005,3 +1111,175 @@ components:
         - education
         - skills
         - languages
+
+    AuthUser:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+          nullable: true
+        firstName:
+          type: string
+          nullable: true
+        lastName:
+          type: string
+          nullable: true
+        profileImageUrl:
+          type: string
+          nullable: true
+      required:
+        - id
+        - email
+        - firstName
+        - lastName
+        - profileImageUrl
+
+    GetCurrentAuthUserResponse:
+      type: object
+      properties:
+        user:
+          nullable: true
+          oneOf:
+            - $ref: "#/components/schemas/AuthUser"
+      required:
+        - user
+
+    ExchangeMobileAuthorizationCodeBody:
+      type: object
+      properties:
+        code:
+          type: string
+        code_verifier:
+          type: string
+        redirect_uri:
+          type: string
+        state:
+          type: string
+        nonce:
+          type: string
+          nullable: true
+      required:
+        - code
+        - code_verifier
+        - redirect_uri
+        - state
+
+    ExchangeMobileAuthorizationCodeResponse:
+      type: object
+      properties:
+        token:
+          type: string
+      required:
+        - token
+
+    LogoutMobileSessionResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+      required:
+        - success
+
+    Job:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        company:
+          type: string
+        location:
+          type: string
+        type:
+          type: string
+        area:
+          type: string
+        salaryMin:
+          type: integer
+          nullable: true
+        salaryMax:
+          type: integer
+          nullable: true
+        description:
+          type: string
+        requirements:
+          type: string
+        skills:
+          type: string
+        benefits:
+          type: string
+        isActive:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - title
+        - company
+        - location
+        - type
+        - area
+        - description
+        - requirements
+        - skills
+        - benefits
+        - isActive
+        - createdAt
+
+    Course:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        provider:
+          type: string
+        area:
+          type: string
+        level:
+          type: string
+        durationHours:
+          type: integer
+          nullable: true
+        description:
+          type: string
+        skills:
+          type: string
+        url:
+          type: string
+          nullable: true
+        isFree:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - title
+        - provider
+        - area
+        - level
+        - description
+        - skills
+        - isFree
+        - createdAt
+
+    RecommendationsResponse:
+      type: object
+      properties:
+        jobs:
+          type: array
+          items:
+            $ref: "#/components/schemas/Job"
+        courses:
+          type: array
+          items:
+            $ref: "#/components/schemas/Course"
+      required:
+        - jobs
+        - courses
