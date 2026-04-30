@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import { Layout } from "@/components/layout";
+import { UserProfileProvider } from "@/context/user-profile";
 import DashboardPage from "@/pages/dashboard";
 import CompaniesPage from "@/pages/companies";
 import CompanyDetailPage from "@/pages/company-detail";
@@ -17,6 +18,7 @@ import JobDetailPage from "@/pages/job-detail";
 import CoursesPage from "@/pages/courses";
 import CourseDetailPage from "@/pages/course-detail";
 import RecommendationsPage from "@/pages/recommendations";
+import LoginPage from "@/pages/login";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +27,7 @@ function Router() {
     <Layout>
       <Switch>
         <Route path="/" component={DashboardPage} />
+        <Route path="/entrar" component={LoginPage} />
         <Route path="/empresas" component={CompaniesPage} />
         <Route path="/empresas/:id" component={CompanyDetailPage} />
         <Route path="/empresas/:id/indicadores" component={IndicatorsPage} />
@@ -47,10 +50,12 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-          <Router />
-        </WouterRouter>
-        <Toaster />
+        <UserProfileProvider>
+          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+            <Router />
+          </WouterRouter>
+          <Toaster />
+        </UserProfileProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );

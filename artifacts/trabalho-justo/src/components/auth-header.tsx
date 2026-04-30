@@ -1,6 +1,6 @@
-import { useAuth } from "@workspace/replit-auth-web";
+import { Link } from "wouter";
+import { useUserProfile } from "@/context/user-profile";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,59 +9,61 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LogOut, User } from "lucide-react";
+import { LogOut, User, Settings, FileText } from "lucide-react";
 
 export function AuthHeader() {
-  const { user, isLoading, isAuthenticated, login, logout } = useAuth();
+  const { profile, clearProfile, isLoggedIn } = useUserProfile();
 
-  if (isLoading) {
-    return <div className="w-8 h-8 rounded-full bg-muted animate-pulse" />;
-  }
-
-  if (!isAuthenticated || !user) {
+  if (!isLoggedIn || !profile) {
     return (
-      <Button size="sm" onClick={login} variant="outline" className="text-xs">
-        Entrar
+      <Button size="sm" asChild variant="outline" className="text-xs">
+        <Link href="/entrar">Entrar</Link>
       </Button>
     );
   }
 
-  const initials = [user.firstName, user.lastName]
-    .filter(Boolean)
-    .map((n) => n![0])
+  const initials = profile.name
+    .split(" ")
+    .map((n) => n[0])
+    .slice(0, 2)
     .join("")
-    .toUpperCase() || "U";
-
-  const displayName = [user.firstName, user.lastName].filter(Boolean).join(" ") || user.email || "Usuario";
+    .toUpperCase();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button className="flex items-center gap-2 rounded-full focus:outline-none focus:ring-2 focus:ring-primary/50">
-          <Avatar className="h-8 w-8">
-            {user.profileImageUrl && <AvatarImage src={user.profileImageUrl} alt={displayName} />}
-            <AvatarFallback className="text-xs bg-primary text-primary-foreground">{initials}</AvatarFallback>
-          </Avatar>
+          <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-bold">
+            {initials}
+          </div>
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-48">
+      <DropdownMenuContent align="end" className="w-52">
         <DropdownMenuLabel className="font-normal">
-          <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">{displayName}</p>
-            {user.email && (
-              <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
-            )}
+          <div className="flex flex-col space-y-0.5">
+            <p className="text-sm font-semibold leading-none truncate">{profile.name}</p>
+            <p className="text-xs leading-none text-muted-foreground truncate">{profile.email}</p>
+            <p className="text-xs leading-none text-muted-foreground">{profile.phone}</p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <a href="/curriculos" className="flex items-center gap-2 cursor-pointer">
-            <User className="h-4 w-4" />
-            Meu Curriculo
-          </a>
+          <Link href="/curriculos" className="flex items-center gap-2 cursor-pointer">
+            <FileText className="h-4 w-4" />
+            Meus Curriculos
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/entrar" className="flex items-center gap-2 cursor-pointer">
+            <Settings className="h-4 w-4" />
+            Editar Perfil
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={logout} className="text-destructive focus:text-destructive cursor-pointer">
+        <DropdownMenuItem
+          onClick={clearProfile}
+          className="text-destructive focus:text-destructive cursor-pointer"
+        >
           <LogOut className="h-4 w-4 mr-2" />
           Sair
         </DropdownMenuItem>
