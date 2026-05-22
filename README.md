@@ -74,3 +74,10 @@ O projeto foi migrado e otimizado para um ambiente local de fácil execução:
 | **Repositório (GitHub / Figma)** | 31/05/2026 | Via Link |
 | **Relatório Final e Vídeo Pitch** | 31/05/2026 | Way Hub |
 | **Início das Apresentações** | 01/06/2026 | Presencial/Síncrono (10 min) |
+<img width="1366" height="720" alt="Captura de tela 2026-05-21 214110" src="https://github.com/user-attachments/assets/9c1036e7-f494-4bc5-b909-a10a5b4b57e6" />
+<img width="1366" height="720" alt="Captura de tela 2026-05-21 213848" src="https://github.com/user-attachments/assets/8cff5ab2-6e17-4b6a-8962-3888916554c5" />
+<img width="1366" height="720" alt="Captura de tela 2026-05-21 214305" src="https://github.com/user-attachments/assets/9ad33342-9468-42aa-a70c-4c312d29da68" />
+<img width="1366" height="720" alt="Captura de tela 2026-05-21 214234" src="https://github.com/user-attachments/assets/62e898ad-493d-4473-afb3-fc2458c98287" />
+<img width="1366" height="720" alt="Captura de tela 2026-05-21 214205" src="https://github.com/user-attachments/assets/21c61457-1d97-46bc-b154-a71f38e6c2eb" />
+<img width="1366" height="720" alt="Captura de tela 2026-05-21 214137" src="https://github.com/user-attachments/assets/26b26af9-5f59-491e-b5f2-64b1946c6c7e" />
+
