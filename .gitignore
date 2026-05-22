@@ -47,3 +47,13 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+.config/
+
+# .NET build outputs
+**/bin/
+**/obj/
+
+# SQLite Databases
+*.db
+*.db-shm
+*.db-wal

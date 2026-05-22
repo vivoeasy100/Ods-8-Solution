@@ -23,20 +23,26 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 ## Structure
 
 ```text
-artifacts-monorepo/
+ods-8-solution/
 ├── artifacts/              # Deployable applications
-│   └── api-server/         # Express API server
+│   ├── api-server/         # Express API server (Legacy Node.js)
+│   ├── api-server-dotnet/  # C# ASP.NET Core Web API Server (.NET 10)
+│   │   ├── Controllers/    # Web API endpoints (Dashboard, Companies, etc.)
+│   │   ├── Models/         # Entity Framework models
+│   │   ├── Data/           # EF DbContext and DbSeeder
+│   │   └── trabalhojusto.db# Local SQLite database (Auto-created and seeded)
+│   └── trabalho-justo/     # React frontend client app (Vite)
 ├── lib/                    # Shared libraries
 │   ├── api-spec/           # OpenAPI spec + Orval codegen config
 │   ├── api-client-react/   # Generated React Query hooks
 │   ├── api-zod/            # Generated Zod schemas from OpenAPI
-│   └── db/                 # Drizzle ORM schema + DB connection
+│   └── db/                 # Drizzle ORM schema + DB connection (PostgreSQL)
 ├── scripts/                # Utility scripts (single workspace package)
-│   └── src/                # Individual .ts scripts, run via `pnpm --filter @workspace/scripts run <script>`
+│   └── src/                # Individual .ts scripts
 ├── pnpm-workspace.yaml     # pnpm workspace (artifacts/*, lib/*, lib/integrations/*, scripts)
-├── tsconfig.base.json      # Shared TS options (composite, bundler resolution, es2022)
+├── tsconfig.base.json      # Shared TS options
 ├── tsconfig.json           # Root TS project references
-└── package.json            # Root package with hoisted devDeps
+└── package.json            # Root package with hoisted devDeps & C# start scripts
 ```
 
 ## TypeScript & Composite Projects
@@ -53,6 +59,15 @@ Every package extends `tsconfig.base.json` which sets `composite: true`. The roo
 - `pnpm run typecheck` — runs `tsc --build --emitDeclarationOnly` using project references
 
 ## Packages
+
+### `artifacts/api-server-dotnet` (.NET 10 API)
+
+Servidor de API desenvolvido em C# com ASP.NET Core. Possui rotas de API em controladores fortemente tipados, com persistência via Entity Framework Core em SQLite (padrão local) ou PostgreSQL (produção).
+
+* **Porta:** 8080 (mapeada no proxy do Vite)
+* **Recursos:** Swagger UI integrada para testes interativos das rotas em `/swagger`.
+* **Carga Inicial:** Possui o `DbSeeder.cs` para criar o banco de dados SQLite local `trabalhojusto.db` e populá-lo com dados de teste na primeira execução.
+* **Comando:** `pnpm dev:api-dotnet` (executa `dotnet run` apontando para o projeto).
 
 ### `artifacts/api-server` (`@workspace/api-server`)
 
